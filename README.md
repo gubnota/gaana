@@ -129,7 +129,7 @@ final usersNotifier = Gaana.of(context).getNotifier<UsersNotifier>();
 When any of your controllers change (e.g., when UsersNotifier shuffles the list), the CompositeNotifier calls notifyListeners(), causing the AppState to rebuild its dependents. This way, your UI stays in sync with your app state—all without relying on any external state management library.
 
 ## Disadvantages
-Gaana is tightly coupled to UI and it's hard to implement larger apps witout using streams.
+Gaana is tightly coupled to UI and it's hard to implement larger apps without using streams.
 
 ## Conclusion
 This extension demonstrates a very simple, monolithic state management system built from scratch using Flutter’s InheritedWidget and Listenable interface.
