@@ -25,7 +25,11 @@ class GaanaExample2 extends StatelessWidget {
       "Welcome",
       "Hey!",
     ];
-
+    final repository = PlotRepository();
+    final petrolUseCase = PetrolUseCase(
+      repository: repository,
+      plotNotifier: GaanaService.instance.get<PlotNotifier>() ?? PlotNotifier(),
+    );
     return Scaffold(
       appBar: AppBar(title: const Text("Gaana state machine")),
       body: Column(
@@ -110,17 +114,13 @@ class GaanaExample2 extends StatelessWidget {
                   label: "Stream data",
                   onPressed: () {
                     // For demonstration, instantiate PlotRepository and PetrolUseCase.
-
-                    final repository = PlotRepository();
                     GaanaService.instance.get<PlotNotifier>()?.clean();
-                    final petrolUseCase = PetrolUseCase(
-                      repository: repository,
-                      plotNotifier:
-                          GaanaService.instance.get<PlotNotifier>() ??
-                          PlotNotifier(),
-                    );
-                    // Start the petrol use case if not already started.
-                    petrolUseCase.start();
+                    if (petrolUseCase.isRunning()) {
+                      petrolUseCase.stop();
+                    } else {
+                      // Start the petrol use case if not already started.
+                      petrolUseCase.start();
+                    }
                   },
                   backgroundColor: const Color.fromARGB(255, 0, 142, 114),
                 ),
@@ -204,16 +204,6 @@ ElevatedButton buildStyledButton({
   );
 }
 
-// Example data: List of points with arbitrary x,y values.
-// final data = <Offset>[
-//   const Offset(0, 0),
-//   const Offset(2, 20),
-//   const Offset(4, 40),
-//   const Offset(6, 28),
-//   const Offset(8, 9),
-//   const Offset(10, 16),
-//   const Offset(40, -3),
-// ];
 class GraphDemo extends StatelessWidget {
   const GraphDemo({super.key});
 

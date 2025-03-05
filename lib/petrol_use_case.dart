@@ -14,7 +14,6 @@ class PetrolUseCase {
   /// Initiates the process:
   /// 1. Fills the tank (simulated delay).
   /// 2. Then starts generating new dots periodically.
-  /// If a dot’s y value is >= 11, prints a message and resets the plot.
   void start() {
     repository.fillTheTank(() {
       // Set an initial dot (choose a starting point, for example x=0, y=10)
@@ -24,18 +23,18 @@ class PetrolUseCase {
       _timer = Timer.periodic(const Duration(milliseconds: 50), (_) {
         if (_lastDot == null) return;
         final newDot = repository.genVal(_lastDot!);
-        // If the new dot's y is <= -8, print message and reset.
-        if (newDot.dy >= 11) {
-          // debugPrint("y reached 11; resetting plot.");
-          // plotNotifier.clean();
-          // _lastDot = const Offset(0, 10); // Reset starting point.
-          // plotNotifier.addDot(_lastDot!);
-        } else {
-          _lastDot = newDot;
-          plotNotifier.addDot(newDot);
-        }
+        _lastDot = newDot;
+        plotNotifier.addDot(newDot);
+        // }
       });
     });
+  }
+
+  bool isRunning() {
+    if (_timer != null && _timer!.isActive) {
+      return true;
+    }
+    return false;
   }
 
   void stop() {
