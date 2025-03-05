@@ -19,6 +19,7 @@ From anywhere in the code use `context.gaana` or `Gaana.of(context)` to access i
 
 ```dart
 const List<String> exampleUsers = [
+  "Mark",
   "Helly",
   "Milchick",
   "Irving",
@@ -67,7 +68,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Halves',
       initialRoute: '/',
       routes: {'/': (context) => GaanaExample()},
     );
@@ -108,7 +108,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Halves',
       initialRoute: '/',
       themeMode: context.gaana.get<ThemeProvider>()?.themeMode,
       theme: ThemeData.light(),
@@ -122,7 +121,7 @@ class MyApp extends StatelessWidget {
 ## Accessing Controllers
 In any widget, you can retrieve a specific controller by using helper methods. For example:
 ```dart
-final usersNotifier = Gaana.of(context).getNotifier<UsersNotifier>();
+final usersNotifier = Gaana.of(context).get<UsersNotifier>();
 ```
 
 ## Reacting to Changes
@@ -136,3 +135,14 @@ This extension demonstrates a very simple, monolithic state management system bu
 It follows the SOLID principle of depending on abstractions (Listenable) and keeps the reactive code minimal.
 If you want to understand the fundamentals of state management in Flutter or build your own lightweight solution, this approach is an excellent starting point.
 Gaana uses Flutter’s built‑in InheritedWidget and Listenable (often via ChangeNotifier). But you need to access state via the widget tree (using BuildContext).
+
+## Hooks and Singleton
+To overcome these issues, another singleton could be used along with callback funcions (that call a function on any state change inside a sertain notifier in order to run some code).
+```dart
+  final compositeNotifier = GaanaService.instance;
+  compositeNotifier.add(usersNotifier);
+  runApp(Gaana(child: const MyApp(), notifier: compositeNotifier));
+// this will return true
+GaanaService.instance.get<UsersNotifier>() ==
+Gaana.of(context).get<UsersNotifier>() == gaana.context.get<UsersNotifier>();
+```

@@ -1,77 +1,154 @@
-import 'package:flutter/widgets.dart';
-export 'screen.dart';
-// part 'example.dart'; // Ensure this is the correct part file
+import 'dart:io';
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'gaana.dart';
 
-final exampleUsers = [
-  'Alice',
-  'Bob',
-  'Charlie',
-  'Ivy',
-  'Don',
-  'Caren',
-  'Dick',
-  'Sam',
-  'Fred',
-  'Mich',
-  'Creig',
-];
-// Some random greeting texts.
-const List<String> exampleGreetings = [
-  "Hello",
-  "Hi there",
-  "Greetings",
-  "Welcome",
-  "Hey!",
-];
+class GaanaExample extends StatelessWidget {
+  const GaanaExample({super.key});
 
-class UsersNotifier extends ChangeNotifier {
-  List<String> _users;
+  @override
+  Widget build(BuildContext context) {
+    // Retrieve the appState notifier.
+    final appState = context.gaana;
+    final usersNotifier = appState.get<UsersNotifier>();
+    if (usersNotifier == null) {
+      return const Scaffold(
+        body: Center(child: Text("UsersNotifier not found")),
+      );
+    }
+    // Some random greeting texts.
+    const List<String> greetings = [
+      "Hello",
+      "Hi there",
+      "Greetings",
+      "Welcome",
+      "Hey!",
+    ];
 
-  UsersNotifier(this._users);
+    return Scaffold(
+      appBar: AppBar(title: const Text("Gaana state machine")),
+      body: Column(
+        children: [
+          // A row of horizontally scrollable pills.
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children:
+                    usersNotifier.users.map((user) {
+                      return GestureDetector(
+                        onTap: () {
+                          // When a user pill is tapped, check if a ChatNotifier exists.
+                          ChatNotifier? chatNotifier =
+                              appState.get<ChatNotifier>();
+                          // If not, create one and add it.
+                          if (chatNotifier == null) {
+                            chatNotifier = ChatNotifier();
+                            appState.add(ChatNotifier());
+                          }
+                          // Generate a random greeting.
+                          final greeting =
+                              greetings[Random().nextInt(greetings.length)];
+                          final message = Message(
+                            id: DateTime.now().millisecondsSinceEpoch,
+                            sender: user,
+                            content: "$greeting from $user!",
+                            timestamp: DateTime.now(),
+                          );
+                          chatNotifier.add(message);
+                        },
+                        child: Card(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
 
-  List<String> get users => _users;
-
-  /// Updates the list and notifies listeners.
-  void set(List<String> newUsers) {
-    _users = newUsers;
-    notifyListeners();
-  }
-
-  /// Shuffles the list and notifies listeners.
-  void shuffle() {
-    _users.shuffle();
-    notifyListeners();
-  }
-}
-
-class Message {
-  final int id;
-  final String sender;
-  final String content;
-  final DateTime timestamp;
-
-  Message({
-    required this.id,
-    required this.sender,
-    required this.content,
-    required this.timestamp,
-  });
-}
-
-class ChatNotifier extends ChangeNotifier {
-  final List<Message> messages;
-  ChatNotifier({List<Message>? messages}) : messages = messages ?? [] {
-    // Now messages is a mutable list.
-  }
-
-  void addMessage(Message message) {
-    messages.insert(0, message);
-    // _messages.add(message);
-    notifyListeners();
-  }
-
-  void removeMessage(Message message) {
-    messages.remove(message);
-    notifyListeners();
+                            child: Text(
+                              user,
+                              style: TextStyle(
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium?.color,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+              ),
+            ),
+          ),
+          // Button to shuffle the users list.
+          TextButton(
+            onPressed: () {
+              if (Platform.isIOS) HapticFeedback.lightImpact();
+              usersNotifier.shuffle();
+            },
+            child: Card(
+              color: Colors.red,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+                child: Text(
+                  "Shuffle Users",
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // Expanded grid view to display chat messages.
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(8.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                childAspectRatio: 3,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+              ),
+              itemCount: appState.notifiers.whereType<ChatNotifier>().fold<int>(
+                0,
+                (sum, notifier) => sum + notifier.messages.length,
+              ), //chatNotifier.messages.length,
+              itemBuilder: (context, index) {
+                final allMessages =
+                    appState.notifiers
+                        .whereType<ChatNotifier>()
+                        .expand((chat) => chat.messages)
+                        .toList();
+                final message = allMessages[index];
+                return GestureDetector(
+                  onTap: () {
+                    // When a message tile is tapped, remove it from its ChatNotifier.
+                    final chatNotifier = appState.get<ChatNotifier>(
+                      predicate: (cn) => cn.messages.contains(message),
+                    );
+                    if (chatNotifier != null) {
+                      chatNotifier.remove(message);
+                    }
+                  },
+                  child: Card(
+                    child: ListTile(
+                      title: Text(message.sender),
+                      subtitle: Text(message.content),
+                      trailing: Text(
+                        "${message.timestamp.hour}:${message.timestamp.minute.toString().padLeft(2, '0')}:${message.timestamp.second.toString().padLeft(2, '0')}",
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
