@@ -31,6 +31,14 @@ void main() {
       expect(un?.users.length, greaterThan(1));
     });
 
+    test("adding multiple notifiers", () {
+      final composite = CompositeNotifier([]);
+      //GaanaService.instance;
+      composite.add(UsersNotifier(exampleUsers));
+      composite.add(ChatNotifier());
+      expect(composite.notifiers.length, greaterThan(1));
+    });
+
     test("chat notifier key check", () {
       final chat = ChatNotifier(
         messages: [

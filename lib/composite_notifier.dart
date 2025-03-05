@@ -22,7 +22,10 @@ class CompositeNotifier extends ChangeNotifier {
   void add(Listenable notifier) {
     if (notifier is GaanaNotifier) {
       if (_notifiers.any(
-        (n) => n is GaanaNotifier && (n).key == notifier.key,
+        (n) =>
+            n is GaanaNotifier &&
+            (n).runtimeType == notifier.runtimeType &&
+            (n).key == notifier.key,
       )) {
         return;
       }

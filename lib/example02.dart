@@ -204,22 +204,21 @@ ElevatedButton buildStyledButton({
   );
 }
 
+// Example data: List of points with arbitrary x,y values.
+// final data = <Offset>[
+//   const Offset(0, 0),
+//   const Offset(2, 20),
+//   const Offset(4, 40),
+//   const Offset(6, 28),
+//   const Offset(8, 9),
+//   const Offset(10, 16),
+//   const Offset(40, -3),
+// ];
 class GraphDemo extends StatelessWidget {
   const GraphDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Example data: List of points with arbitrary x,y values.
-    // final data = <Offset>[
-    //   const Offset(0, 0),
-    //   const Offset(2, 20),
-    //   const Offset(4, 40),
-    //   const Offset(6, 28),
-    //   const Offset(8, 9),
-    //   const Offset(10, 16),
-    //   const Offset(40, -3),
-    // ];
-
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),

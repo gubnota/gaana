@@ -7,3 +7,7 @@
 * Added a singleton way for hooks, extended ability to add GaanaNotifier with unique keys
 ## 0.1.1
 * added example section, clean up imports / exports of code
+## 0.1.2
+* improved README.md, fix a typo
+## 0.1.3
+* fixed a bug in CompositeNotifier didn't register two notifiers derived from GaanaNotifier (since they share the same key).
