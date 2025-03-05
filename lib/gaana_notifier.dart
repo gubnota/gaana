@@ -8,11 +8,13 @@ class GaanaNotifier extends ChangeNotifier {
   GaanaNotifier({this.key = "generic"});
 
   /// Register a callback with a unique key.
+  /// you can use addListener() as well
   void register(String key, GaanaCallback callback) {
     _callbacks[key] = callback;
   }
 
   /// Deregister a callback by its key.
+  /// you can use removeListener() as well
   void deregister(String key) {
     _callbacks.remove(key);
   }

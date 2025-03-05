@@ -7,7 +7,7 @@
 </p>
 
 ---
-# Gaga App State management
+# Gaana App State management
 A monolithic state machine using an InheritedWidget and a composite of Listenable objects.
 It can replace ThemeProvider
 Managing complex state in a Flutter app can be eased by libraries like BLoC, Provider, or Riverpod. However, for a deeper understanding or simply for the sake of simplicity and control you might want to build your own state management system from scratch without any external dependencies. This extension demonstrates one such approach by leveraging Flutter’s built‑in `InheritedWidget` and `Listenable` objects.
@@ -69,17 +69,8 @@ final usersNotifier = Gaana.of(context).get<UsersNotifier>();
 ## Reacting to Changes
 When any of your controllers change (e.g., when UsersNotifier shuffles the list), the CompositeNotifier calls notifyListeners(), causing the AppState to rebuild its dependents. This way, your UI stays in sync with your app state—all without relying on any external state management library.
 
-## Disadvantages
-Gaana is tightly coupled to UI and it's hard to implement larger apps without using streams.
-
-## Conclusion
-This extension demonstrates a very simple, monolithic state management system built from scratch using Flutter’s InheritedWidget and Listenable interface.
-It follows the SOLID principle of depending on abstractions (Listenable) and keeps the reactive code minimal.
-If you want to understand the fundamentals of state management in Flutter or build your own lightweight solution, this approach is an excellent starting point.
-Gaana uses Flutter’s built‑in InheritedWidget and Listenable (often via ChangeNotifier). But you need to access state via the widget tree (using BuildContext).
-
-## Hooks and Singleton
-To overcome these issues, another singleton could be used along with callback funcions (that call a function on any state change inside a sertain notifier in order to run some code).
+## GaanaService listeners and hooks
+Gaana is tightly coupled to UI and it's hard to implement larger apps without using streams. If you use `GaanaService.instance` singletone instead of `CompositeNotifier()` you can overcome these difficulties.
 ```dart
   final compositeNotifier = GaanaService.instance;
   compositeNotifier.add(usersNotifier);
@@ -87,4 +78,12 @@ To overcome these issues, another singleton could be used along with callback fu
 // this will return true
 GaanaService.instance.get<UsersNotifier>() ==
 Gaana.of(context).get<UsersNotifier>() == gaana.context.get<UsersNotifier>();
+GaanaService.instance.add(GaanaNotifier())
+
+GaanaService.instance.add(GaanaNotifier(key: "unique1"));
+GaanaNotifier? notifier = GaanaService.instance.get(key: "unique1");
+notifier?.register("some_class_to_be_notified", () => print("callback"));
+notifier?.addListener(() => {print("notifies its listeners")});
 ```
+This way you can set multiple notifiers and modify reactive UI data from anywhere else.
+Maybe it's not the optimal solution for larger apps since each notifier slows down reactiveness.
