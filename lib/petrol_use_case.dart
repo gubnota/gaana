@@ -15,18 +15,17 @@ class PetrolUseCase {
   /// 1. Fills the tank (simulated delay).
   /// 2. Then starts generating new dots periodically.
   void start() {
-    repository.fillTheTank(() {
-      // Set an initial dot (choose a starting point, for example x=0, y=10)
-      _lastDot = const Offset(0, 10);
-      plotNotifier.addDot(_lastDot!);
-      // Start generating new dots periodically.
-      _timer = Timer.periodic(const Duration(milliseconds: 50), (_) {
-        if (_lastDot == null) return;
-        final newDot = repository.genVal(_lastDot!);
-        _lastDot = newDot;
-        plotNotifier.addDot(newDot);
-        // }
-      });
+    // repository.fillTheTank(() {
+    // Set an initial dot (choose a starting point, for example x=0, y=10)
+    _lastDot = const Offset(0, 10);
+    plotNotifier.addDot(_lastDot!);
+    // Start generating new dots periodically.
+    _timer = Timer.periodic(const Duration(milliseconds: 50), (_timer) {
+      if (_lastDot == null) return;
+      if (_lastDot != null && _lastDot!.dx > 30) _timer.cancel();
+      final newDot = repository.genVal(_lastDot!);
+      _lastDot = newDot;
+      plotNotifier.addDot(newDot);
     });
   }
 
