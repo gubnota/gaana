@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import 'gaana_notifier.dart';
 
+/// ChangeNotifier wrapper to combine several notifiers
 class CompositeNotifier extends ChangeNotifier {
   final List<Listenable> _notifiers;
 

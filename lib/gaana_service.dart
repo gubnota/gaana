@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'composite_notifier.dart';
 
-typedef GaanaCallback = void Function(CompositeNotifier notifier);
-
 class GaanaService {
   // The singleton CompositeNotifier instance.
   static final CompositeNotifier _instance = CompositeNotifier([]);

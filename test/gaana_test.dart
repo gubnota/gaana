@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gaana/composite_notifier.dart';
-import 'package:gaana/gaana_notifier.dart';
-import 'package:gaana/gaana.dart';
+import 'package:gaana/example.dart';
 
 void main() {
   group("Gaana tests", () {

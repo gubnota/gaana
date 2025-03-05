@@ -1,3 +1,12 @@
+<p align="center">
+	<img src="https://github.com/user-attachments/assets/0b5831cc-55ed-402a-a9f2-2b9f673364be" alt="Package Logo" />
+</p>
+<p align="center">
+	<a href="https://opensource.org/licenses/MIT" rel="noopener" target="_blank"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="MIT License Badge"></a>
+	<a href="https://github.com/EdsonBueno/infinite_scroll_pagination" rel="noopener" target="_blank"><img src="https://img.shields.io/badge/platform-flutter-ff69b4.svg" alt="Flutter Platform Badge"></a>
+</p>
+
+---
 # Gaga App State management
 A monolithic state machine using an InheritedWidget and a composite of Listenable objects.
 It can replace ThemeProvider
@@ -50,73 +59,6 @@ runApp(Gaana(child: const MyApp(),notifier:CompositeNotifier([users])));
 context.gaana.get<UsersNotifier>()?.users;
 ```
 
-## Example
-```dart
-import 'package:flutter/material.dart';
-import 'package:gaana/gaana.dart';
-import 'package:gaana/example.dart';
-
-void main() {
-  final usersNotifier = UsersNotifier(exampleUsers);
-  final compositeNotifier = CompositeNotifier([usersNotifier]);
-  runApp(Gaana(child: const MyApp(), notifier: compositeNotifier));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {'/': (context) => GaanaExample()},
-    );
-  }
-}
-```
-Or more advanced with ThemeProvider:
-```dart
-import 'package:flutter/material.dart';
-import 'package:gaana/gaana.dart';
-import 'package:gaana/example.dart';
-
-class ThemeProvider with ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system;
-  ThemeMode get themeMode => _themeMode;
-  bool get isDarkMode => _themeMode == ThemeMode.dark;
-  void toggleTheme(bool isOn) {
-    _themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
-    notifyListeners();
-  }
-
-  void setTheme(ThemeMode mode) {
-    _themeMode = mode;
-    notifyListeners();
-  }
-}
-
-void main() {
-  final usersNotifier = UsersNotifier(exampleUsers);
-  final themeNotifier = ThemeProvider();
-  final compositeNotifier = CompositeNotifier([usersNotifier, themeNotifier]);
-  runApp(Gaana(child: const MyApp(), notifier: compositeNotifier));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      themeMode: context.gaana.get<ThemeProvider>()?.themeMode,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      routes: {'/': (context) => GaanaExample()},
-    );
-  }
-}
-```
 
 ## Accessing Controllers
 In any widget, you can retrieve a specific controller by using helper methods. For example:

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'composite_notifier.dart';
 export 'gaana_service.dart';
-export 'model.dart';
+export 'gaana_notifier.dart';
 
 class Gaana extends InheritedNotifier<CompositeNotifier> {
   Gaana({super.key, CompositeNotifier? notifier, required super.child})
