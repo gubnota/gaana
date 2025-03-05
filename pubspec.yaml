@@ -1,6 +1,6 @@
 name: gaana
 description: A Flutter state management solution boilerplate based on Notifier
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/gubnota/gaana
 environment:
   sdk: ^3.7.0

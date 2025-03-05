@@ -13,3 +13,5 @@
 * fixed a bug in CompositeNotifier didn't register two notifiers derived from GaanaNotifier (since they share the same key).
 ## 1.0.0
 * updated a new demo video
+## 1.0.1
+* updated a new demo video

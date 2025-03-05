@@ -13,7 +13,7 @@ It can replace ThemeProvider
 Managing complex state in a Flutter app can be eased by libraries like BLoC, Provider, or Riverpod. However, for a deeper understanding or simply for the sake of simplicity and control you might want to build your own state management system from scratch without any external dependencies. This extension demonstrates one such approach by leveraging Flutter’s built‑in `InheritedWidget` and `Listenable` objects.
 
 
-![video](https://github.com/user-attachments/assets/7917f9c5-03e2-43bf-93bd-ad4d4f385dc7)
+![video](https://github.com/user-attachments/assets/72c45221-1be8-49af-9a79-d42727429a5c)
 
 
 ## How to use
