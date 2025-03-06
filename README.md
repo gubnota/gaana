@@ -1,11 +1,12 @@
-<p align="center">
-	<img src="https://github.com/user-attachments/assets/0b5831cc-55ed-402a-a9f2-2b9f673364be" alt="Package Logo" />
-</p>
-<p align="center">
-	<a href="https://opensource.org/licenses/MIT" rel="noopener" target="_blank"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="MIT License Badge"></a>
-	<a href="https://github.com/EdsonBueno/infinite_scroll_pagination" rel="noopener" target="_blank"><img src="https://img.shields.io/badge/platform-flutter-ff69b4.svg" alt="Flutter Platform Badge"></a>
-</p>
+![logo](https://github.com/user-attachments/assets/86d83760-c9d6-44bc-9b6e-c33da34d976f)
+![frame](https://github.com/user-attachments/assets/c6eb927a-b220-4d50-b1c1-10f2026ed6ff)
 
+![Pub Version](https://img.shields.io/pub/v/gaana)
+![License](https://img.shields.io/github/license/gubnota/gaana)
+![Issues](https://img.shields.io/github/issues/gubnota/gaana)
+![Coverage](https://img.shields.io/codecov/c/github/gubnota/gaana)
+![Stars](https://img.shields.io/github/stars/gubnota/gaana)
+<a href="https://opensource.org/licenses/MIT" rel="noopener" target="_blank"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="MIT License Badge"></a>
 ---
 # Gaana App State management
 A monolithic state machine using an InheritedWidget and a composite of Listenable objects.
@@ -59,6 +60,7 @@ runApp(Gaana(child: const MyApp(),notifier:CompositeNotifier([users])));
 context.gaana.get<UsersNotifier>()?.users;
 ```
 
+### [For a complete example please have a look at this project](https://github.com/gubnota/gaana_messenger)
 
 ## Accessing Controllers
 In any widget, you can retrieve a specific controller by using helper methods. For example:

@@ -1,5 +1,6 @@
 
 ## Example
+For a complete example, please, have a look at [Clean Architecture example with Gaana state manager](https://github.com/gubnota/gaana_messenger).
 ```dart
 import 'package:flutter/material.dart';
 import 'package:gaana/gaana.dart';
