@@ -17,3 +17,5 @@
 * updated a new demo video
 ## 1.0.2
 * added [Clean Architecture example with Gaana state manager](https://github.com/gubnota/gaana_messenger)
+## 1.0.3
+* fixed logo, added link to an example project

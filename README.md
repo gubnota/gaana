@@ -1,5 +1,4 @@
-![logo](https://github.com/user-attachments/assets/86d83760-c9d6-44bc-9b6e-c33da34d976f)
-![frame](https://github.com/user-attachments/assets/c6eb927a-b220-4d50-b1c1-10f2026ed6ff)
+[![frame](https://github.com/user-attachments/assets/c6eb927a-b220-4d50-b1c1-10f2026ed6ff)](https://github.com/gubnota/gaana_messenger)
 
 ![Pub Version](https://img.shields.io/pub/v/gaana)
 ![License](https://img.shields.io/github/license/gubnota/gaana)
